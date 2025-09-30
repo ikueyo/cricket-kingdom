@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>罐裡乾坤 - 精力系統版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 引入外部 CSS 檔案 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen p-2">
+
+    <div class="w-full max-w-md mx-auto bg-amber-100 rounded-2xl shadow-2xl p-4 border-4 border-amber-800" style="min-height: 90vh;">
+        <div id="game-container" class="h-full flex flex-col">
+
+            <!-- 各個遊戲畫面 -->
+            <div id="start-screen" class="screen active flex-col justify-center items-center text-center h-full">
+                <h1 class="text-4xl font-bold text-amber-900 mb-2">罐裡乾坤</h1>
+                <p class="text-amber-700 mb-8">精力系統版</p>
+                <!-- 蟋蟀 SVG 會由 JS 動態載入 -->
+                <div class="w-96 h-96 mb-8 text-amber-900 cricket-svg-container"></div>
+                <button id="start-game-btn" class="btn bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-amber-700">開始遊戲</button>
+            </div>
+
+            <!-- 主介面 (Hub) -->
+            <div id="hub-screen" class="screen flex-col justify-between h-full p-2">
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-amber-900">我的蟋蟀</h2>
+                        <div class="text-sm bg-amber-200 px-3 py-1 rounded-full">
+                            <span>關卡: </span><span id="stage-level" class="font-bold">1</span>
+                        </div>
+                    </div>
+                    <div id="player-cricket-card" class="bg-amber-200 p-4 rounded-lg shadow-md border-2 border-amber-400">
+                        <!-- 蟋蟀資訊卡將注入此處 -->
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3 mt-6">
+                    <button data-scene="map" class="scene-btn btn bg-green-600 text-white py-4 rounded-lg flex flex-col items-center justify-center"><span class="text-lg">野外</span><span class="font-bold text-xl">捕捉</span></button>
+                    <button data-scene="train" class="scene-btn btn bg-sky-600 text-white py-4 rounded-lg flex flex-col items-center justify-center"><span class="text-lg">自我</span><span class="font-bold text-xl">訓練</span></button>
+                    <button data-scene="battle" class="scene-btn btn bg-red-700 text-white py-4 rounded-lg flex flex-col items-center justify-center"><span class="text-lg">挑戰</span><span class="font-bold text-xl">關主</span></button>
+                </div>
+            </div>
+            
+            <!-- 地圖選擇畫面 -->
+            <div id="map-screen" class="screen flex-col h-full">
+                <h2 class="text-2xl font-bold text-amber-900 mb-2 text-center">選擇地點</h2>
+                <p class="text-amber-700 mb-4 text-center">點擊地圖上的區域開始探索。</p>
+                <div id="map-image-container" class="flex-grow my-4 cursor-pointer hover:scale-105 transition-transform duration-300">
+                    <img src="images/map2.png" alt="探索地圖" class="w-full h-full object-contain">
+                </div>
+                <button data-scene="hub" class="scene-btn btn bg-gray-500 text-white py-2 px-6 rounded-lg self-center mt-4">返回</button>
+            </div>
+
+            <!-- 捕捉畫面 -->
+            <div id="catch-screen" class="screen flex-col h-full">
+                <h2 class="text-2xl font-bold text-amber-900 mb-2 text-center">野外捕捉</h2>
+                <p class="text-amber-700 mb-4 text-center">點擊可疑的地洞！</p>
+                <div id="grass-container" class="grid grid-cols-3 gap-4 my-auto"></div>
+                <button data-scene="hub" class="scene-btn btn bg-gray-500 text-white py-2 px-6 rounded-lg self-center mt-4">返回</button>
+            </div>
+
+            <!-- 訓練畫面 -->
+            <div id="train-screen" class="screen flex-col justify-between h-full text-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-amber-900 mb-2">自我訓練</h2>
+                        <p class="text-amber-700 mb-4">在指針到達綠色區域時點擊！</p>
+                    </div>
+                <div class="w-full">
+                    <div class="h-8 bg-gray-300 rounded-full overflow-hidden relative border-2 border-gray-500">
+                        <div class="absolute h-full bg-red-500 w-[20%] left-0"></div>
+                        <div class="absolute h-full bg-yellow-400 w-[20%] left-[20%]"></div>
+                        <div class="absolute h-full bg-green-500 w-[20%] left-[40%]"></div>
+                        <div class="absolute h-full bg-yellow-400 w-[20%] left-[60%]"></div>
+                        <div class="absolute h-full bg-red-500 w-[20%] left-[80%]"></div>
+                        <div id="train-pointer" class="absolute h-full w-1.5 bg-black top-0" style="left: 0%;"></div>
+                    </div>
+                    <button id="train-action-btn" class="btn bg-sky-600 text-white font-bold py-3 px-8 rounded-full text-lg mt-8 w-40">開始訓練</button>
+                    <p id="train-result" class="mt-4 font-bold h-12"></p>
+                </div>
+                    <button data-scene="hub" class="scene-btn btn bg-gray-500 text-white py-2 px-6 rounded-lg self-center mt-4">返回</button>
+            </div>
+
+            <!-- 戰鬥畫面 -->
+            <div id="battle-screen" class="screen flex-col justify-between h-full">
+                <div id="opponent-info-card"></div>
+                <div class="flex justify-around items-center my-4 h-40">
+                    <div id="player-cricket-battle" class="w-36 h-36 transform -scale-x-100"></div>
+                    <div id="opponent-cricket-battle" class="w-36 h-36"></div>
+                </div>
+                <div id="player-info-card"></div>
+                <div id="battle-log" class="h-24 bg-amber-200/50 rounded-lg my-2 p-2 text-sm overflow-y-auto border border-amber-400 font-mono"></div>
+                <div id="action-buttons" class="grid grid-cols-3 gap-2">
+                    <button data-action="attack" class="fight-action btn bg-red-600 text-white py-3 rounded-lg flex flex-col items-center"><span class="font-bold text-lg">猛攻</span><span class="text-xs">消耗15精力</span></button>
+                    <button data-action="taunt" class="fight-action btn bg-yellow-500 text-gray-800 py-3 rounded-lg flex flex-col items-center"><span class="font-bold text-lg">挑釁</span><span class="text-xs">回復10精力</span></button>
+                    <button data-action="defend" class="fight-action btn bg-blue-600 text-white py-3 rounded-lg flex flex-col items-center"><span class="font-bold text-lg">防禦</span><span class="text-xs">消耗5精力</span></button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 全局彈窗 Modal -->
+        <div id="modal" class="fixed inset-0 flex items-center justify-center p-4 modal-bg hidden">
+            <div class="bg-amber-100 rounded-lg shadow-xl p-6 w-full max-w-sm text-center border-4 border-amber-800">
+                <div id="modal-content"></div>
+                <div id="modal-buttons" class="mt-6 flex justify-center gap-4">
+                    <button id="modal-confirm-btn" class="btn bg-amber-600 text-white font-bold py-2 px-6 rounded-full">確定</button>
+                    <button id="modal-cancel-btn" class="btn bg-gray-500 text-white font-bold py-2 px-6 rounded-full">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 
+      使用 type="module" 引入 JS，
+      這讓我們可以在 JS 檔案中使用 import/export 語法來組織程式碼。
+    -->
+    <audio id="bgm" src="audio/music.mp3" loop preload="auto"></audio>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

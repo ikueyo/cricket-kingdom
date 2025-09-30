@@ -1,0 +1,49 @@
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    touch-action: manipulation;
+}
+.screen { display: none; }
+.active { display: flex; }
+.btn {
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.btn:disabled {
+    background-color: #9ca3af; /* gray-400 */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.hole:hover { transform: scale(1.05) rotate(3deg); transition: transform 0.2s ease; }
+.modal-bg { background-color: rgba(0,0,0,0.6); }
+
+/* 動畫效果 */
+@keyframes shake {
+    0%, 100% { transform: translateX(0) scaleX(-1);}
+    10%, 50%, 90% { transform: translateX(-8px) scaleX(-1);}
+    30%, 70% { transform: translateX(8px) scaleX(-1);}
+}
+@keyframes shake-opponent {
+    0%, 100% { transform: translateX(0); }
+    10%, 50%, 90% { transform: translateX(8px); }
+    30%, 70% { transform: translateX(-8px); }
+}
+@keyframes charge {
+    0%, 100% { transform: scale(1.05) scaleX(-1); }
+    50% { transform: scale(1) scaleX(-1); }
+}
+@keyframes charge-opponent {
+    0%, 100% { transform: scale(1.05); }
+    50% { transform: scale(1); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.03); }
+}
+.shake-anim { animation: shake 0.5s ease-in-out; }
+.shake-anim-opponent { animation: shake-opponent 0.5s ease-in-out; }
+.charge-anim { animation: charge 0.7s linear infinite; }
+.charge-anim-opponent { animation: charge-opponent 0.7s linear infinite; }
