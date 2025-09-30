@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pick_random(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
 
         generateCricket(baseLevel) {
-            const level = Math.max(1, baseLevel + this.randi_range(-1, 2));
+            const level = Math.max(1, baseLevel + this.randi_range(-1, 1));
             const baseHp = 80 + level * 8;
             const baseAttack = 10 + level * 2;
             const baseStamina = 30 + level * 3;
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startBattle() {
         battleState.player = Object.assign(new CricketData(), JSON.parse(JSON.stringify(GameManager.playerCricket)));
-        battleState.opponent = GameManager.generateCricket(GameManager.currentStage);
+        battleState.opponent = GameManager.generateCricket(GameManager.playerCricket.level);
         
         battleState.player.resetForBattle();
         battleState.opponent.resetForBattle();
