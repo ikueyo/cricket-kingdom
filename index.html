@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>罐裡乾坤 - 精力系統版</title>
+    <title>罐裡乾坤</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +19,11 @@
             <!-- 各個遊戲畫面 -->
             <div id="start-screen" class="screen active flex-col justify-center items-center text-center h-full">
                 <h1 class="text-4xl font-bold text-amber-900 mb-2">罐裡乾坤</h1>
-                <p class="text-amber-700 mb-8">精力系統版</p>
+<!--               <p class="text-amber-700 mb-8">精力系統版</p>--> 
                 <!-- 蟋蟀 SVG 會由 JS 動態載入 -->
                 <div class="w-96 h-96 mb-8 text-amber-900 cricket-svg-container"></div>
                 <button id="start-game-btn" class="btn bg-amber-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-amber-700">開始遊戲</button>
+                <p class="text-amber-700 mt-4 text-sm">本小遊戲僅供學校文化資產保存教育教學運用</p>
             </div>
 
             <!-- 主介面 (Hub) -->
@@ -121,5 +122,8 @@
     -->
     <audio id="bgm" src="audio/music.mp3" loop preload="auto"></audio>
     <script type="module" src="main.js"></script>
+    <footer class="text-center text-white text-xs py-2" style="position: absolute; bottom: 10px; width: 100%; left: 0;">
+        <p>Copyright © 2025 高雄市忠義國小吳明倫教師</p>
+    </footer>
 </body>
 </html>
