@@ -38,7 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
         pick_random(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
 
         generateCricket(baseLevel) {
-            const level = Math.max(1, baseLevel + this.randi_range(-1, 1));
+            let level;
+            // 關卡10以上，難度提升
+            if (GameManager.currentStage >= 10) {
+                level = Math.max(1, baseLevel + this.randi_range(1, 2));
+            } else {
+                level = Math.max(1, baseLevel + this.randi_range(-1, 1));
+            }
             const baseHp = 80 + level * 8;
             const baseAttack = 10 + level * 2;
             const baseStamina = 30 + level * 3;
@@ -145,6 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let trainState = { id: null, position: 0, direction: 1, speed: 250, lastTime: null };
     function resetTrainScreen() { 
         const remaining = 3 - GameManager.trainingSessionsUsed;
+        // 根據目前關卡等級，動態調整訓練速度
+        // 基礎速度 250，每升一關 +25
+        trainState.speed = 250 + (GameManager.currentStage - 1) * 25;
+
         dom.train.actionBtn.textContent = '開始訓練'; 
         dom.train.result.innerHTML = `本關卡剩餘訓練次數: <span class="font-bold text-lg">${remaining}</span>`; 
         trainState.position = 0; 
